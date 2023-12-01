@@ -1,6 +1,6 @@
 import axios from "axios"
 
-const API_URL = 'http://localhost:5000'
+const API_URL = 'http://localhost:8080'
 
 type NovaEnquete = {
     pergunta: string
@@ -8,9 +8,10 @@ type NovaEnquete = {
 }
 
 type AdicionarResposta = {
-    resposta: string
+    conteudo: string
     crm: string
-    id_enquete:string
+    nome:string
+    enquete_id:string
 }
 
 async function criarNovaEnquete(data: NovaEnquete) {

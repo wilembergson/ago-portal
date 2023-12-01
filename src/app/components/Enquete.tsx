@@ -6,19 +6,33 @@ type Props = {
     visivel: boolean
 }
 
-export default function Enquete({visivel}:Props) {
+type Resposta = {
+    conteudo: string
+    crm:string
+    nome:string
+    enquete_id:string
+}
+export default function Enquete({ visivel }: Props) {
     const [enquete, setEnquete] = useState<any>(undefined)
     const [voto, setVoto] = useState('')
+    const crm: any = localStorage.getItem('crm')
+    const nome: any = localStorage.getItem('nome')
 
-    const handleVotoChange = (e: any) => {
+    const handleVotoChange = async (e: any) => {
         setVoto(e.target.value);
+        await api.adicionarResposta({
+            conteudo:e.target.value,
+            crm,
+            nome,
+            enquete_id: enquete.id
+        })
     };
 
     async function buscarEnquete() {
         try {
             const res = await api.buscarEnqueteAtiva()
             setEnquete(res.data)
-            console.log('passou')
+            console.log('Atualizou:' + (new Date()).getSeconds())
         } catch (error: any) {
             console.log(error)
         }
@@ -38,8 +52,8 @@ export default function Enquete({visivel}:Props) {
                     <label className="hover:cursor-pointer">
                         <input className="hover:cursor-pointer"
                             type="radio"
-                            value="APROVAR"
-                            checked={voto === 'APROVAR'}
+                            value="APROVADO"
+                            checked={voto === 'APROVADO'}
                             onChange={handleVotoChange}
                         />
                         APROVAR
@@ -62,6 +76,7 @@ export default function Enquete({visivel}:Props) {
                         />
                         ABSTER
                     </label>
+                    <h1>{voto}</h1>
                 </div> : <></>
             }
         </>
