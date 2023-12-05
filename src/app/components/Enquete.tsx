@@ -52,8 +52,8 @@ export default function Enquete({ visivel }: Props) {
                     <label className="hover:cursor-pointer">
                         <input className="hover:cursor-pointer"
                             type="radio"
-                            value="APROVADO"
-                            checked={voto === 'APROVADO'}
+                            value="APROVAR"
+                            checked={voto === 'APROVAR'}
                             onChange={handleVotoChange}
                         />
                         APROVAR
@@ -76,7 +76,6 @@ export default function Enquete({ visivel }: Props) {
                         />
                         ABSTER
                     </label>
-                    <h1>{voto}</h1>
                 </div> : <></>
             }
         </>

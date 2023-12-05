@@ -28,7 +28,7 @@ async function buscarEnqueteAtiva() {
 }
 
 async function adicionarResposta(data: AdicionarResposta) {
-    const response = await axios.post(`${API_URL}/resposta`, data)
+    const response = await axios.post(`${API_URL}/voto`, data)
     return response
 }
 
