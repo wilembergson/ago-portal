@@ -1,6 +1,6 @@
 'use client'
 import { api } from "@/api/api-conections"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 
 type Props = {
     visivel: boolean
@@ -31,15 +31,22 @@ export default function Enquete({ visivel }: Props) {
     async function buscarEnquete() {
         try {
             const res = await api.buscarEnqueteAtiva()
+            if(!res.data){
+                setVoto('')
+            }
             setEnquete(res.data)
             console.log('Atualizou:' + (new Date()).getSeconds())
         } catch (error: any) {
             console.log(error)
         }
     }
-    setInterval(() => {
-        buscarEnquete()
+   useEffect(() => {
+    const intervalo = setInterval(async () => {
+        await buscarEnquete()
     }, 5000)
+
+    return () => clearInterval(intervalo)
+   }, [])
 
     const estilo = `flex flex-col w-72 px-4`
     return (
@@ -76,6 +83,9 @@ export default function Enquete({ visivel }: Props) {
                         />
                         ABSTER
                     </label>
+                    <h1 className="flex mt-10">
+                        Tempo: {enquete.tempo}
+                    </h1>
                 </div> : <></>
             }
         </>

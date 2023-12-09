@@ -1,13 +1,20 @@
 'use client'
 import { useEffect, useState } from "react"
+import { useRouter } from "next/navigation"
 import Player from "../components/palyer"
 import Enquete from "../components/Enquete"
 
 
 export default function Home() {
     const [visivel, setVisivel] = useState(false)
+    const router = useRouter()
     const [crm, setCrm] = useState<string>()
     const [nome, setNome] = useState<string>()
+
+    function logout(){
+        localStorage.clear()
+        router.push("/")
+    }
 
     useEffect(() => {
         const localStorageCrm:any = localStorage.getItem('crm')
@@ -26,8 +33,8 @@ export default function Home() {
                 <h1>CRM: {crm?.toString()}</h1>
                 <button className="flex font-black text-white items-center p-4 rounded-full
                 bg-green-600 hover:bg-green-500 transition duration-300"
-                    onClick={() => setVisivel(true)}>
-                    Ir para votação
+                    onClick={() => logout()}>
+                    Logout
                 </button>
             </section>
             <section className='flex'>
