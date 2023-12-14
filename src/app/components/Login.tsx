@@ -17,28 +17,31 @@ export default function Login() {
         setLogin({ ...login, [target.name]: target.value })
     }
 
-    function logar(){
+    function logar() {
         localStorage.setItem('crm', login.crm)
         localStorage.setItem('nome', login.nome)
         setLogin({
-            crm:'',
-            nome:''
+            crm: '',
+            nome: ''
         })
         router.push('/transmicao')
     }
 
     return (
-        <div>
-            <form className='flex flex-col p-4 bg-white'
+        <div className='flex flex-col h-scheen p-4 w-full justify-center items-center'>
+            <form className='flex flex-col p-6 bg-green-600 rounded-lg justify-center items-center'
                 action={logar}>
-                <input className='flex mb-4 bg-gray-100 p-2 rounded-md'
+                <h1 className="flex text-2xl mb-6">
+                    Área do cooperado
+                </h1>
+                <input className='flex mb-4 text-gray-700 bg-gray-100 p-2 rounded-md'
                     placeholder='Digite seu crm'
                     name='crm'
                     onChange={(e: any) => handleChange(e)}
                     value={login.crm}
                     required
                 />
-                <input className='flex mb-4 bg-gray-100 p-2 rounded-md'
+                <input className='flex mb-4 text-gray-700 bg-gray-100 p-2 rounded-md'
                     type="text"
                     placeholder='Seu nome'
                     name='nome'
@@ -46,9 +49,9 @@ export default function Login() {
                     value={login.nome}
                     required
                 />
-                <div>
-                    <button className='bg-green-500'>
-                        Criar
+                <div className="mt-4">
+                    <button className='bg-orange-500 p-2 rounded-md'>
+                        Entrar
                     </button>
                 </div>
             </form>

@@ -18,12 +18,13 @@ export default function Home() {
 
   return (
     <main className="flex min-h-screen flex-col items-center p-4">
-      <section className="flex w-full justify-between mb-10 px-52">
+      <section className="flex w-full justify-start items-center mb-10 px-52">
+        <img className="flex w-52 mr-20" src="/img/unimed-logo.svg" alt="" />
         <h1 className='flex font-black text-4xl'>
           AGO 2024
         </h1>
       </section>
-        <Login />
+      <Login />
     </main>
   )
 }
