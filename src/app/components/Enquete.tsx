@@ -9,9 +9,9 @@ type Props = {
 
 type Resposta = {
     conteudo: string
-    crm:string
-    nome:string
-    enquete_id:string
+    crm: string
+    nome: string
+    enquete_id: string
 }
 export default function Enquete({ visivel }: Props) {
     const [enquete, setEnquete] = useState<any>(undefined)
@@ -19,11 +19,14 @@ export default function Enquete({ visivel }: Props) {
     const crm: any = localStorage.getItem('crm')
     const nome: any = localStorage.getItem('nome')
     const [countdown, setCountdown] = useState(0)
+    const [opcaoSelecionada, setOpcaoSelecionada] = useState('');
+
 
     const handleVotoChange = async (e: any) => {
         setVoto(e.target.value);
+        setOpcaoSelecionada(e.target.value)
         await api.adicionarResposta({
-            conteudo:e.target.value,
+            conteudo: e.target.value,
             crm,
             nome,
             enquete_id: enquete.id
@@ -33,8 +36,9 @@ export default function Enquete({ visivel }: Props) {
     async function buscarEnquete() {
         try {
             const res = await api.buscarEnqueteAtiva()
-            if(!res.data){
+            if (!res.data) {
                 setVoto('')
+                setOpcaoSelecionada('')
             }
             setEnquete(res.data)
             if (res.data) {
@@ -47,7 +51,7 @@ export default function Enquete({ visivel }: Props) {
         }
     }
 
-        const countdownComponent = useMemo(() => (
+    const countdownComponent = useMemo(() => (
         <Countdown
             date={Date.now() + countdown}
             intervalDelay={0}
@@ -58,14 +62,15 @@ export default function Enquete({ visivel }: Props) {
                 </span>
             )}
         />
-    ), [countdown]);
-   useEffect(() => {
-    const intervalo = setInterval(async () => {
-        await buscarEnquete()
-    }, 5000)
+    ), [countdown])
 
-    return () => clearInterval(intervalo)
-   }, [])
+    useEffect(() => {
+        const intervalo = setInterval(async () => {
+            await buscarEnquete()
+        }, 5000)
+
+        return () => clearInterval(intervalo)
+    }, [])
 
     const estilo = `flex flex-col w-72 px-4 mt-10 md:mt-0`
     return (
@@ -75,8 +80,9 @@ export default function Enquete({ visivel }: Props) {
                     <h1 className="flex w-hull font-black text-start text-md mb-4">
                         {enquete.pergunta}
                     </h1>
-                    <label className="hover:cursor-pointer">
-                        <input className="hover:cursor-pointer"
+                    <label className={`hover:cursor-pointer hover:text-[#FFA21C] items-center justify-center 
+                    transition duration-300 ${opcaoSelecionada === 'APROVAR' ? 'font-bold text-lg text-[#FFA21C]' : ''}`}>
+                        <input className="hover:cursor-pointer focus:ring-green-500 w-4 h-4 m-2"
                             type="radio"
                             value="APROVAR"
                             checked={voto === 'APROVAR'}
@@ -84,8 +90,9 @@ export default function Enquete({ visivel }: Props) {
                         />
                         APROVAR
                     </label>
-                    <label className="hover:cursor-pointer">
-                        <input className="hover:cursor-pointer"
+                    <label className={`hover:cursor-pointer hover:text-[#FFA21C] items-center justify-center 
+                     transition duration-300 ${opcaoSelecionada === 'REPROVAR' ? 'font-bold text-lg text-[#FFA21C]' : ''}`}>
+                        <input className="hover:cursor-pointer focus:ring-green-500 w-4 h-4 m-2"
                             type="radio"
                             value="REPROVAR"
                             checked={voto === 'REPROVAR'}
@@ -93,8 +100,9 @@ export default function Enquete({ visivel }: Props) {
                         />
                         REPROVAR
                     </label>
-                    <label className="hover:cursor-pointer">
-                        <input className="hover:cursor-pointer"
+                    <label className={`hover:cursor-pointer hover:text-[#FFA21C] items-center justify-center 
+                    transition duration-300 ${opcaoSelecionada === 'ABSTER' ? 'font-bold text-lg text-[#FFA21C]' : ''}`}>
+                        <input className="hover:cursor-pointer focus:ring-green-500 w-4 h-4 m-2"
                             type="radio"
                             value="ABSTER"
                             checked={voto === 'ABSTER'}

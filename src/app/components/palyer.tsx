@@ -33,10 +33,14 @@ export default function Player() {
     height: calculateHeight(),
     width: windowDimensions.width > 600 ? '600' : '100%', // Use 100% width for smaller screens
     playerVars: {
-      autoplay: 1,
+      autoplay: 1
     },
   };
   return (
-    <YouTube videoId='jfKfPfyJRdk' opts={opts} />
+    <div>
+      <YouTube videoId='jfKfPfyJRdk' opts={opts} />
+      {/*<div className="flex w-full h-full z-9 t-0 bg-red-500 relative mt-[-336px] opacity-0"/>*/}
+    </div>
+
   )
 }
