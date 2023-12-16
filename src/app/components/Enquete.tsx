@@ -26,10 +26,9 @@ export default function Enquete({ visivel }: Props) {
         setVoto(e.target.value);
         setOpcaoSelecionada(e.target.value)
         await api.adicionarResposta({
-            conteudo: e.target.value,
+            idResposta: parseInt(e.target.value),
             crm,
-            nome,
-            enquete_id: enquete.id
+            nome
         })
     };
 
@@ -84,8 +83,8 @@ export default function Enquete({ visivel }: Props) {
                     transition duration-300 ${opcaoSelecionada === 'APROVAR' ? 'font-bold text-lg text-[#FFA21C]' : ''}`}>
                         <input className="hover:cursor-pointer focus:ring-green-500 w-4 h-4 m-2"
                             type="radio"
-                            value="APROVAR"
-                            checked={voto === 'APROVAR'}
+                            value='1'
+                            checked={voto === '1'}
                             onChange={handleVotoChange}
                         />
                         APROVAR
@@ -94,8 +93,8 @@ export default function Enquete({ visivel }: Props) {
                      transition duration-300 ${opcaoSelecionada === 'REPROVAR' ? 'font-bold text-lg text-[#FFA21C]' : ''}`}>
                         <input className="hover:cursor-pointer focus:ring-green-500 w-4 h-4 m-2"
                             type="radio"
-                            value="REPROVAR"
-                            checked={voto === 'REPROVAR'}
+                            value='2'
+                            checked={voto === '2'}
                             onChange={handleVotoChange}
                         />
                         REPROVAR
@@ -104,8 +103,8 @@ export default function Enquete({ visivel }: Props) {
                     transition duration-300 ${opcaoSelecionada === 'ABSTER' ? 'font-bold text-lg text-[#FFA21C]' : ''}`}>
                         <input className="hover:cursor-pointer focus:ring-green-500 w-4 h-4 m-2"
                             type="radio"
-                            value="ABSTER"
-                            checked={voto === 'ABSTER'}
+                            value='3'
+                            checked={voto === '3'}
                             onChange={handleVotoChange}
                         />
                         ABSTER

@@ -8,10 +8,9 @@ type NovaEnquete = {
 }
 
 type AdicionarResposta = {
-    conteudo: string
+    idResposta: number
     crm: string
     nome:string
-    enquete_id:string
 }
 
 async function criarNovaEnquete(data: NovaEnquete) {
