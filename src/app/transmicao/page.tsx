@@ -3,6 +3,7 @@ import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
 import Player from "../components/palyer"
 import Enquete from "../components/Enquete"
+import Resultado from "../components/Resultado"
 
 
 export default function Home() {
@@ -45,6 +46,7 @@ export default function Home() {
             <section className='flex flex-col md:flex-row mt-0 md:mt-10 justify-center'>
                 <Player />
                 <Enquete visivel={visivel} />
+                <Resultado/>
             </section>
         </main>
     )

@@ -31,9 +31,14 @@ async function adicionarResposta(data: AdicionarResposta) {
     return response
 }
 
+async function buscarResultado() {
+    return await axios.get(`${API_URL}/enquete/obter-resultado`)
+}
+
 export const api = {
     criarNovaEnquete,
     encerrarEnquete,
     buscarEnqueteAtiva,
-    adicionarResposta
+    adicionarResposta,
+    buscarResultado
 }

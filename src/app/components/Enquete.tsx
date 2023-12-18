@@ -8,11 +8,14 @@ type Props = {
 }
 
 type Resposta = {
-    conteudo: string
-    crm: string
-    nome: string
-    enquete_id: string
+	pergunta: string,
+	aprovar: number,
+	reprovar: number,
+	abster: number,
+	total: number,
+	resultado: string
 }
+
 export default function Enquete({ visivel }: Props) {
     const [enquete, setEnquete] = useState<any>(undefined)
     const [voto, setVoto] = useState('')
