@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation"
 import Player from "../components/palyer"
 import Enquete from "../components/Enquete"
 import Resultado from "../components/Resultado"
+import EnquetesEncerradas from "../components/EnquetesEncerradas"
 
 
 export default function Home() {
@@ -43,11 +44,14 @@ export default function Home() {
                     </button>
                 </div>
             </header>
-            <section className='flex flex-col md:flex-row mt-0 md:mt-10 justify-center'>
-                <Player />
-                <Enquete visivel={visivel} />
-                <Resultado/>
-            </section>
+            <div>
+                <section className='flex flex-col md:flex-row mt-0 md:mt-10 justify-center'>
+                    <Player />
+                    <Enquete visivel={visivel} />
+                    <Resultado />
+                </section>
+                <EnquetesEncerradas />
+            </div>
         </main>
     )
 }

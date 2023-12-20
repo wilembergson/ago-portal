@@ -35,10 +35,20 @@ async function buscarResultado() {
     return await axios.get(`${API_URL}/enquete/obter-resultado`)
 }
 
+async function buscarEnquetesEncerradas() {
+    return await axios.get(`${API_URL}/enquete/encerradas`)
+}
+
+async function buscarResultadoPorId(id:number) {
+    return await axios.get(`${API_URL}/enquete/obter-resultado/${id}`)
+}
+
 export const api = {
     criarNovaEnquete,
     encerrarEnquete,
     buscarEnqueteAtiva,
     adicionarResposta,
-    buscarResultado
+    buscarResultado,
+    buscarEnquetesEncerradas,
+    buscarResultadoPorId
 }

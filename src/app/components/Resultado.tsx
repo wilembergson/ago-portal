@@ -27,8 +27,7 @@ export default function Resultado() {
         } catch (error: any) {
             console.log(error)
         }
-    }
-
+    } 
     useEffect(() => {
         const intervalo = setInterval(async () => {
             await buscarResultado()
