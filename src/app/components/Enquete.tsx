@@ -8,22 +8,23 @@ type Props = {
 }
 
 type Resposta = {
-	pergunta: string,
-	aprovar: number,
-	reprovar: number,
-	abster: number,
-	total: number,
-	resultado: string
+    pergunta: string,
+    aprovar: number,
+    reprovar: number,
+    abster: number,
+    total: number,
+    resultado: string
 }
 
 export default function Enquete({ visivel }: Props) {
     const [enquete, setEnquete] = useState<any>(undefined)
     const [voto, setVoto] = useState('')
-    const crm: any = localStorage.getItem('crm')
-    const nome: any = localStorage.getItem('nome')
+
     const [countdown, setCountdown] = useState(0)
     const [opcaoSelecionada, setOpcaoSelecionada] = useState('');
 
+    const [crm, setCrm] = useState<any>()
+    const [nome, setNome] = useState<any>()
 
     const handleVotoChange = async (e: any) => {
         setVoto(e.target.value);
@@ -67,6 +68,8 @@ export default function Enquete({ visivel }: Props) {
     ), [countdown])
 
     useEffect(() => {
+        setCrm(localStorage.getItem('crm'))
+        setNome(localStorage.getItem('nome'))
         const intervalo = setInterval(async () => {
             await buscarEnquete()
         }, 5000)
