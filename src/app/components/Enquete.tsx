@@ -1,5 +1,6 @@
 'use client'
 import { api } from "@/api/api-conections"
+import { useSearchParams } from "next/navigation"
 import { useState, useEffect, useMemo } from "react"
 import Countdown, { zeroPad } from "react-countdown"
 
@@ -25,6 +26,7 @@ export default function Enquete({ visivel }: Props) {
 
     const [crm, setCrm] = useState<any>()
     const [nome, setNome] = useState<any>()
+    const searchParams = useSearchParams()
 
     const handleVotoChange = async (e: any) => {
         setVoto(e.target.value);
@@ -68,8 +70,10 @@ export default function Enquete({ visivel }: Props) {
     ), [countdown])
 
     useEffect(() => {
-        setCrm(localStorage.getItem('crm'))
-        setNome(localStorage.getItem('nome'))
+        const localStorageCrm = searchParams.get('crm')
+        const localStorageNome = searchParams.get('nome')
+        setCrm(localStorageCrm!)
+        setNome(localStorageNome!)
         const intervalo = setInterval(async () => {
             await buscarEnquete()
         }, 5000)

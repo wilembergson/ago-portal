@@ -26,12 +26,12 @@ export default function Player() {
   const calculateHeight = () => {
     // Use a proporção desejada entre width e height (ex: 16:9)
     const aspectRatio = 14 / 28;
-    return windowDimensions.width > 600 ? 336 : windowDimensions.width * aspectRatio;
+    return windowDimensions.width > 1200 ? 672 : windowDimensions.width * aspectRatio;
   };
 
   const opts = {
     height: calculateHeight(),
-    width: windowDimensions.width > 600 ? '600' : '100%', // Use 100% width for smaller screens
+    width: windowDimensions.width > 1200 ? '1200' : '100%', // Use 100% width for smaller screens
     playerVars: {
       autoplay: 1
     },
