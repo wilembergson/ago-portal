@@ -1,16 +1,21 @@
 'use client'
 import { useEffect, useState } from "react"
 import { useSearchParams } from "next/navigation"
-import Player from "../components/palyer"
-import Enquete from "../components/Enquete"
-import Resultado from "../components/Resultado"
-import EnquetesEncerradas from "../components/EnquetesEncerradas"
+import Player from "../../components/palyer"
+import Enquete from "../../components/Enquete"
+import Resultado from "../../components/Resultado"
+import EnquetesEncerradas from "../../components/EnquetesEncerradas"
+import { useRouter } from "next/router"
 
 
-export default function Transmissao() {
+export default function Transmissao({
+    params,
+}: {
+    params: { crm: string }
+}) {
     const [visivel, setVisivel] = useState(false)
-    const [crm, setCrm] = useState<string>()
-    const [nome, setNome] = useState<string>()
+    const [crmEncontrado, setCrmEncontrado] = useState<string | string[] | undefined>()
+    const [nomeEncontrado, setNomeEncontrado] = useState<string | string[] | undefined>('Doda Silva')
     const searchParams = useSearchParams()
 
     function logout() {
@@ -18,10 +23,10 @@ export default function Transmissao() {
     }
 
     useEffect(() => {
-        const localStorageCrm = searchParams.get('crm')
-        const localStorageNome = searchParams.get('nome')
-        setCrm(localStorageCrm!)
-        setNome(localStorageNome!)
+        //const localStorageCrm = searchParams.get('crm')
+        //const localStorageNome = searchParams.get('nome')
+        setCrmEncontrado(params.crm)
+        //setNomeEncontrado(nome)
     }, [])
 
     return (
@@ -32,6 +37,8 @@ export default function Transmissao() {
                     <h1>CRM: {crm?.toString()}</h1>
                 </section>
             </header>*/}
+            <h1>{nomeEncontrado}</h1>
+            <h1>{crmEncontrado}</h1>
             <div className="flex flex-col w-full">
                 <section className='flex flex-col md:flex-row justify-center w-full'>
                     <Player />
