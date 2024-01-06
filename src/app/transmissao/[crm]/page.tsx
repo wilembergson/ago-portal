@@ -23,10 +23,7 @@ export default function Transmissao({
     }
 
     useEffect(() => {
-        //const localStorageCrm = searchParams.get('crm')
-        //const localStorageNome = searchParams.get('nome')
         setCrmEncontrado(params.crm)
-        //setNomeEncontrado(nome)
     }, [])
 
     return (
