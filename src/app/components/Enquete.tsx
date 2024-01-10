@@ -1,30 +1,27 @@
 'use client'
 import { api } from "@/api/api-conections"
 import { useSearchParams } from "next/navigation"
-import { useState, useEffect, useMemo } from "react"
+import { useState, useEffect, useMemo, useRef } from "react"
 import Countdown, { zeroPad } from "react-countdown"
+import { json } from "stream/consumers"
+import { useGlobalContext } from "../context/ContextoDtCronometro"
 
 type Props = {
     visivel: boolean
-}
-
-type Resposta = {
-    pergunta: string,
-    aprovar: number,
-    reprovar: number,
-    abster: number,
-    total: number,
-    resultado: string
 }
 
 export default function Enquete({ visivel }: Props) {
     const [enquete, setEnquete] = useState<any>(undefined)
     const [voto, setVoto] = useState('')
     const [agora, setAgora] = useState(new Date())
-    const [datacro, setDatacro] = useState(new Date())
-    const [countdown, setCountdown] = useState<number|undefined>(undefined)
+
+    //const { dtCronometro, setDtCronometro } = useGlobalContext()
+    const [dtState, setDtState] = useState()
+    const dtCronometro = useRef()
+    const [countdown, setCountdown] = useState<number | undefined>(undefined)
     const [opcaoSelecionada, setOpcaoSelecionada] = useState('');
     const [dataCronometro, setDataCronometro] = useState<Date>()
+    const [key, setKey] = useState(0);
 
     const [crm, setCrm] = useState<any>()
     const [nome, setNome] = useState<any>()
@@ -48,51 +45,27 @@ export default function Enquete({ visivel }: Props) {
                 setOpcaoSelecionada('')
             }
             setEnquete(res.data)
-            /*if (res.data) {
-                const d:number[] = res.data.data_cronometro
-                const nd = new Date()
-                nd.setHours(d[3], d[4], d[5])
-                setDataCronometro(nd)
-                const dtValendo = (nd.getTime() - agora.getTime())
-                //setCountdown(res.data.tempo * 60000)
-                if(countdown === undefined){
-                    setCountdown(dtValendo)
-                }
-                localStorage.setItem('cronometro', (res.data.tempo * 60000).toString())
+            buscarCountdown(res.data.data_cronometro)
+            /*if (JSON.stringify(dtCronometro.current) !== JSON.stringify(res.data.data_cronometro)) {
+                console.log(JSON.stringify(dtCronometro.current))
+                console.log(JSON.stringify(res.data.data_cronometro))
+                dtCronometro.current = res.data.data_cronometro
             }*/
-            console.log('Atualizou:' + (new Date()).getSeconds())
         } catch (error: any) {
             console.log(error)
         }
     }
 
-    async function buscarCountdown() {
-        try {
-            const res = await api.buscarEnqueteAtiva()
-            if (!res.data) {
-                setVoto('')
-                setOpcaoSelecionada('')
-            }
-            if (res.data) {
-                const d:number[] = res.data.data_cronometro
-                const nd = new Date()
-                nd.setHours(d[3], d[4], d[5], d[6])
-                setDataCronometro(nd)
-                const dtValendo = (nd.getTime() - agora.getTime())
-                //setCountdown(res.data.tempo * 60000)
-                if(countdown === undefined){
-                    setCountdown(dtValendo)
-                }
-            }
-            console.log('Atualizou:' + (new Date()).getSeconds())
-        } catch (error: any) {
-            console.log(error)
-        }
-    }
+    function buscarCountdown(data_cronometro: number[]) {
+        const nova_data = new Date()
+        nova_data.setHours(data_cronometro[3], data_cronometro[4], data_cronometro[5])
+        setDataCronometro(nova_data)
+}
 
     const countdownComponent = useMemo(() => (
         <Countdown
-            date={Date.now() + countdown!}
+            key={key}
+            date={dataCronometro}
             intervalDelay={0}
             precision={2}
             renderer={({ minutes, seconds }) => (
@@ -101,7 +74,8 @@ export default function Enquete({ visivel }: Props) {
                 </span>
             )}
         />
-    ), [countdown])
+    ), [dataCronometro])
+
 
     useEffect(() => {
         const localStorageCrm = searchParams.get('crm')
@@ -111,18 +85,21 @@ export default function Enquete({ visivel }: Props) {
         const intervalo = setInterval(async () => {
             await buscarEnquete()
         }, 5000)
-
-        buscarCountdown()
         return () => clearInterval(intervalo)
     }, [])
 
-    const estilo = `flex flex-col w-72 px-4 mt-10 md:mt-0`
+    useEffect(() => {
+        // Incrementando a chave para forçar a recriação do Countdown
+        setKey((prevKey) => prevKey + 1);
+    }, [dataCronometro])
+
     return (
         <>
             {enquete ?
-                <div className={estilo}>
-                    <h1>{dataCronometro?.toLocaleTimeString()}</h1>
+                <div className="flex flex-col w-72 px-4 mt-10 md:mt-0">
+                    <h1>{dataCronometro!.toLocaleTimeString()}</h1>
                     <h1>{agora.toLocaleTimeString()}</h1>
+                    <h1>{dtCronometro.current}</h1>
                     <h1>{''}</h1>
                     {/*<h1>{agora.getHours()}:{agora.getMinutes()}:{agora.getSeconds()}</h1>*/}
                     <h1 className="flex w-hull font-black text-start text-md mb-4">
